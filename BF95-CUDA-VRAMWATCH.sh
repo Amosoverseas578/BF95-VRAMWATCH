@@ -827,12 +827,16 @@ draw_dashboard() {
 
     section 'COMFYUI PROCESS'
     if [[ -n "$COMFY_PID" ]]; then
-        comfy_detail="$(human_kib "$COMFY_RSS_KIB") RAM + $(human_kib "$COMFY_SWAP_KIB") swap"
+        comfy_detail="$(human_kib "$COMFY_RSS_KIB") RAM"
         comfy_color=$(memory_color "$COMFY_RSS_PCT")
         meter 'Comfy RSS' "$comfy_detail" "$COMFY_RSS_PCT" "$comfy_color"
-        printf '  %-12s %-23s         %sCUDA VRAM: %s  Total: %s%s
-' \
-            'PID' "$COMFY_PID" "$DIM" "$(human_mib "$COMFY_GPU_MEM_MIB")" "$(human_kib "$COMFY_TOTAL_KIB")" "$RESET"
+        printf '  %-12s %-23s         %sCUDA VRAM: %s%s\n' \
+            'PID' "$COMFY_PID" "$DIM" "$(human_mib "$COMFY_GPU_MEM_MIB")" "$RESET"
+        printf '  %-12s %-23s         %sSwap: %s%s\n' \
+            'Anon RSS' "$(human_kib "$COMFY_ANON_KIB")" \
+            "$DIM" "$(human_kib "$COMFY_SWAP_KIB")" "$RESET"
+        printf '  %-12s %-23s\n' \
+            'Footprint' "$(human_kib "$COMFY_TOTAL_KIB")"
         printf '  %-12s %-23s         %sUptime: %s%s\n' \
             'RSS growth' "$(human_kib_signed "$COMFY_GROWTH_KIB") so far" \
             "$DIM" "$(human_duration "$COMFY_UPTIME_SECONDS")" "$RESET"
